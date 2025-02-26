@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center text-primary">Ajouter un Produit</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Nom <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Prix (€) <span class="text-danger">*</span></label>
+            <input type="number" step="0.01" name="price" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stock <span class="text-danger">*</span></label>
+            <input type="number" name="stock" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Catégorie <span class="text-danger">*</span></label>
+            <select name="category_id" class="form-control" required>
+                <option value="" disabled selected>Choisissez une catégorie</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter</button>
+        <a href="{{ url_for('list_products') }}" class="btn btn-secondary ms-2">Retour à la liste</a>
+    </form>
+</div>
+
+<!-- Styles CSS supplémentaires -->
+<style>
+    body {
+        background-color: #f4f7fa;
+        font-family: 'Arial', sans-serif;
+    }
+    h2 {
+        color: #007bff;
+        font-weight: bold;
+    }
+    .form-label {
+        font-weight: bold;
+    }
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+</style>
+
+{% endblock %}

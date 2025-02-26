@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center text-primary">Liste des Produits</h2>
+    <div class="mb-3 text-end">
+        <a href="{{ url_for('add_product') }}" class="btn btn-success">Ajouter un produit</a>
+    </div>
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-light">
+            <tr>
+                <th>Nom</th>
+                <th>Prix</th>
+                <th>Stock</th>
+                <th>Catégorie</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.price }} €</td>
+                <td>{{ product.stock }}</td>
+                <td>{{ product.category_name }}</td>
+                <td>
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modal{{ product.id }}">Voir</button>
+                </td>
+                <td>
+                    <a href="{{ url_for('edit_product', identifier=product.identifier) }}" class="btn btn-warning">Modifier</a>
+                    <form method="POST" action="{{ url_for('delete_product', identifier=product.identifier) }}" class="d-inline" onsubmit="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+
+            <!-- Modal pour afficher la description -->
+            <div class="modal fade" id="modal{{ product.id }}" tabindex="-1" aria-labelledby="modalLabel{{ product.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel{{ product.id }}">{{ product.name }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{ product.description }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Styles CSS supplémentaires -->
+<style>
+    body {
+        background-color: #f4f7fa;
+        font-family: 'Arial', sans-serif;
+    }
+    h2 {
+        color: #007bff;
+        font-weight: bold;
+    }
+    .table {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .table-bordered {
+        border: 1px solid #dee2e6;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+    .table-hover tbody tr:hover {
+        background-color: #e9ecef;
+    }
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+</style>
+
+{% endblock %}

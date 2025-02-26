@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center text-primary">Ajouter une Catégorie</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Nom <span class="text-danger">*</span></label>
+            <input type="text" name="name" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4"></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter</button>
+        <a href="{{ url_for('list_categories') }}" class="btn btn-secondary ms-2">Retour à la liste</a>
+    </form>
+</div>
+
+<!-- Styles CSS supplémentaires -->
+<style>
+    body {
+        background-color: #f4f7fa;
+        font-family: 'Arial', sans-serif;
+    }
+    h2 {
+        color: #007bff;
+        font-weight: bold;
+    }
+    .form-label {
+        font-weight: bold;
+    }
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+</style>
+
+{% endblock %}
