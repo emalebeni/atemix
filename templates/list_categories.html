@@ -19,7 +19,11 @@
             <tr>
                 <td>{{ category.name }}</td>
                 <td>
-                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modal{{ category.id }}">Voir</button>
+                    {% if category.description %}
+                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modal{{ category.id }}">Voir</button>
+                    {% else %}
+                        <span class="text-danger">❌</span>
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{{ url_for('edit_category', identifier=category.identifier) }}" class="btn btn-warning">Modifier</a>

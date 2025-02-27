@@ -25,7 +25,11 @@
                 <td>{{ product.stock }}</td>
                 <td>{{ product.category_name }}</td>
                 <td>
+                    {% if product.description %}
                     <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modal{{ product.id }}">Voir</button>
+                    {% else %}
+                        <span class="text-danger">❌</span>
+                    {% endif %}
                 </td>
                 <td>
                     <a href="{{ url_for('edit_product', identifier=product.identifier) }}" class="btn btn-warning">Modifier</a>
