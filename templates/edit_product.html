@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center text-primary">Modifier le Produit</h2>
+    <form method="POST">
+        <div class="mb-3">
+            <label class="form-label">Nom <span class="text-danger">*</span></label>
+            <input type="text" name="name" value="{{ product.name }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4">{{ product.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Prix (€) <span class="text-danger">*</span></label>
+            <input type="number" name="price" value="{{ product.price }}" step="0.01" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Stock disponible <span class="text-danger">*</span></label>
+            <input type="number" name="stock" value="{{ product.stock }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Catégorie <span class="text-danger">*</span></label>
+            <select name="category_id" class="form-control" required>
+                {% for category in categories %}
+                    <option value="{{ category.id }}" {% if category.id == product.category_id %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ url_for('list_products') }}" class="btn btn-secondary ms-2">Annuler</a>
+    </form>
+</div>
+
+<!-- Styles CSS supplémentaires -->
+<style>
+    body {
+        background-color: #f4f7fa;
+        font-family: 'Arial', sans-serif;
+    }
+    h2 {
+        color: #007bff;
+        font-weight: bold;
+    }
+    .form-label {
+        font-weight: bold;
+    }
+    .btn {
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+        opacity: 0.9;
+        transform: scale(1.02);
+    }
+</style>
+
+{% endblock %}

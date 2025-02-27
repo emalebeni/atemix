@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container text-center">
+    <h1 class="mb-4" style="color:red;">Tableau de bord</h1>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre de Catégories</h5>
+                    <p class="card-text display-4">{{ total_categories[0] }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre de Produits</h5>
+                    <p class="card-text display-4">{{ total_produits[0] }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2>Statistiques Globales (Diagramme Circulaire)</h2>
+            <canvas id="globalStatsChart"></canvas>
+        </div>
+        <div class="col-md-6">
+            <h2>Statistiques Globales (Graphique à Barres)</h2>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2>Comparaison des Produits par Catégorie (Graphique Linéaire)</h2>
+            <canvas id="lineChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Styles CSS supplémentaires -->
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .card {
+        border: none;
+        border-radius: 10px;
+        transition: transform 0.2s;
+    }
+    .card:hover {
+        transform: scale(1.05);
+    }
+    h1, h2 {
+        color: #343a40;
+    }
+    .display-4 {
+        font-size: 3rem;
+        color: #007bff;
+    }
+</style>
+
+<!-- Scripts pour les graphiques -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Diagramme Circulaire
+    const ctxPie = document.getElementById('globalStatsChart').getContext('2d');
+    const globalStatsChart = new Chart(ctxPie, {
+        type: 'pie', 
+        data: {
+            labels: ['Catégories', 'Produits'],
+            datasets: [{
+                label: 'Nombre',
+                data: [{{ total_categories[0] }}, {{ total_produits[0] }}],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Graphique à Barres
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Catégories', 'Produits'],
+            datasets: [{
+                label: 'Nombre',
+                data: [{{ total_categories[0] }}, {{ total_produits[0] }}],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.6)',
+                    'rgba(153, 102, 255, 0.6)',
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Graphique Linéaire (Comparaison des Produits par Catégorie)
+    const ctxLine = document.getElementById('lineChart').getContext('2d');
+    const lineChart = new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: ['Catégorie 1', 'Catégorie 2', 'Catégorie 3'], // Remplacez par les noms de vos catégories
+            datasets: [{
+                label: 'Nombre de Produits',
+                data: [{{ produits_par_categorie[0] }}, {{ produits_par_categorie[1] }}, {{ produits_par_categorie[2] }}], // Remplacez par vos données
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return tooltipItem.label + ': ' + tooltipItem.raw;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
